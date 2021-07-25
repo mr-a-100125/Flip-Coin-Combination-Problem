@@ -19,12 +19,9 @@ do
 	n=$(($n-1))
 done
 
-if [ ${singlet[Heads]} -gt ${singlet[Tails]} ]
-then
-	echo "Heads win with $((${singlet[Heads]}-${singlet[Tails]}))%"
-else
-	echo "Tails win with $((${singlet[Tails]}-${singlet[Heads]}))%"
-fi
+echo "Heads percentage $((${singlet[Heads]}))%"
+echo "Tails percentage $((${singlet[Tails]}))%"
+
 
 declare -A doublet
 hh=1
@@ -115,4 +112,43 @@ done
 for key in ${!triplet[@]}
 do
         echo "$key : ${triplet[$key]} %"
+done
+
+if [ ${singlet[Heads]} -ge ${singlet[Tails]} ]
+then
+        echo "Singlet win combination is = Heads : $(${singlet[Heads]}))"
+else
+        echo "Singlet win combination is = Tails : $((${singlet[Tails]}))"
+fi
+
+doubletWin=${doublet[HH]}
+for key in ${!doublet[@]}
+do
+	if [ $doubletWin -le ${doublet[$key]} ]
+	then
+		doubletWin=${doublet[$key]}
+	fi
+done
+for k in ${!doublet[@]}
+do
+	if [ ${doublet[$k]} -eq $doubletWin ]
+	then
+		echo "Doublet win Combination is  = $k : ${doublet[$k]}"
+	fi
+done
+
+tripletWin=${triplet[HHH]}
+for key in ${!triplet[@]}
+do
+	if [ $tripletWin -le ${triplet[$key]} ]
+	then
+		tripletWin=${triplet[$key]}
+	fi
+done
+for k in ${!triplet[@]}
+do
+	if [ ${triplet[$k]} -eq $tripletWin ]
+	then
+		echo "Triplet win Combination is  = $k : ${triplet[$k]}"
+	fi
 done
